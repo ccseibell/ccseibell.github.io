@@ -201,7 +201,7 @@ html::-webkit-scrollbar {
   
   
   
-  @media only screen and (max-width: 550px) and (min-width: 200px){
+  @media only screen and (max-width: 550px){
     .container-fluid {
       align-content: center;
     }
