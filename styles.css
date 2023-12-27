@@ -224,6 +224,18 @@ html::-webkit-scrollbar {
     .small-container-left {
       text-align: center;
     }
+
+    h1 {
+    font-size: 1.5rem; /* Smaller font size for h1 on phones */
+  }
+
+  h2 {
+    font-size: 1.0rem; /* Smaller font size for h2 on phones */
+  }
+
+  h3 {
+    font-size: .8rem; /* Smaller font size for h3 on phones */
+  }
     
   }
   
