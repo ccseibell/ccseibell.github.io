@@ -8,6 +8,16 @@
     left: 0;
   }
 
+ h1 {
+    font-size: 96px; /* Adjust as needed */
+    color: white;
+  }
+  
+  p {
+    font-size: 36px; /* Adjust as needed */
+    color: white;
+  }
+
 html {
   overflow-y: scroll;
   scrollbar-width: none; /* For Firefox */
@@ -226,16 +236,12 @@ html::-webkit-scrollbar {
     }
 
     h1 {
-    font-size: 1.5rem; /* Smaller font size for h1 on phones */
-  }
-
-  h2 {
-    font-size: 1.0rem; /* Smaller font size for h2 on phones */
-  }
-
-  h3 {
-    font-size: .8rem; /* Smaller font size for h3 on phones */
-  }
+        font-size: 38px; /* Smaller font size for h1 on phones */
+      }
+    
+      p {
+        font-size: 18px; /* Smaller font size for p on phones */
+      }
     
   }
   
