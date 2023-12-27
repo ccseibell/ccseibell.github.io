@@ -235,13 +235,7 @@ html::-webkit-scrollbar {
       text-align: center;
     }
 
-    h1 {
-        font-size: 38px; /* Smaller font size for h1 on phones */
-      }
     
-      p {
-        font-size: 18px; /* Smaller font size for p on phones */
-      }
     
   }
   
