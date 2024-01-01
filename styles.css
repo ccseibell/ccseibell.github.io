@@ -224,8 +224,8 @@
     
     
   }
-  #app {
-    min-height: 100px; /* Adjust this value as needed */
-    /* Retain other styles like font-family, font-size, etc. */
+   #app {
+    min-height: 20vh; /* Adjust this percentage based on typical text length */
 }
+  
   
