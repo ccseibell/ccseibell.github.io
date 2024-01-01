@@ -224,4 +224,8 @@
     
     
   }
+  #app {
+    min-height: 100px; /* Adjust this value as needed */
+    /* Retain other styles like font-family, font-size, etc. */
+}
   
