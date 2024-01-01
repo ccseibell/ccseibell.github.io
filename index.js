@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   typewriter
     .pauseFor(1000)
     .typeString('I am interested in the convergence of Data Science, ML, and Business -- leveraging insights to drive strategic decisions.')
-    .pauseFor(3000)
+    .pauseFor(30000)
     .start();
 
   var granimInstance = new Granim({
