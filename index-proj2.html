@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <style>
+    .bar {
+      fill: steelblue;
+    }
+
+    .bar:hover {
+      fill: red;
+    }
+
+    .axis-label {
+      font-size: 12px;
+    }
+    .dot {
+    pointer-events: none;
+    }
+
+    body {
+      background-color: #f2f2f2; 
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 44px;
+      font-weight: bold; 
+      margin: 20px 0;
+      color: steelblue;
+    }
+    h2 {
+      text-align: center;
+      font-size: 34px;
+      font-weight: bold; 
+      margin: 20px 0;
+      color: steelblue;
+    }
+    
+    input[type="date"], button {
+      padding: 10px;
+      margin: 5px;
+      border: 1px solid steelblue;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button {
+      background-color: steelblue;
+      color: white;
+      border: none;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    input[type="date"]:hover {
+      border-color: #888;
+    }
+
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .svg-container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .svg-container h2 {
+      margin-bottom: 10px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <h1>Motor Vehicle Crashes -- NYC Metro Area</h1>
+  <div id="tooltip" style="position: absolute; opacity: 0; pointer-events: none; background-color: white; border: 1px solid black; padding: 10px; border-radius: 5px; font-size: 16px; max-width: 200px; text-align: center;"></div>
+
+
+
+  <div class="container">
+    <label for="start-date">Start Date:</label>
+    <input type="date" id="start-date" min="2022-01-01" max="2023-09-19">
+
+    <label for="end-date">End Date:</label>
+    <input type="date" id="end-date" min="2022-01-01" max="2023-09-19">
+    <button onclick="updateVisualization()">Filter</button>
+    <button onclick="resetMap()">Reset Map</button>
+
+    <label for="rainToggle">Check if rained?</label>
+    <input type="checkbox" id="rainToggle" onclick="toggleWeatherFilter()">
+
+    <div class="svg-container">
+      <h2>NYC Crash Map</h2>
+      <svg id="map" width="1000" height="500"></svg>
+    </div>
+
+    <div class="svg-container">
+      <h2>Crash Data Factors</h2>
+      <svg id="barchart" width="960" height="500"></svg>
+    </div>
+  </div>
+
+  <script>
+    
+
+    let initialData;
+    let weatherFilterActive = false;
+
+    async function updateVisualization() {
+      const svgMap = d3.select('#map');
+      const boroughsData = await d3.json('new-york-city-boroughs-ny_.geojson');
+      const crashes = await d3.csv('processed_nyc_crashes.csv');
+      const weather = await d3.csv('processed_nyc_weather.csv');
+
+      const startDate = new Date(document.getElementById("start-date").value).getTime();
+      const endDate = new Date(document.getElementById("end-date").value).getTime();
+      const minDate = new Date("2022-01-01").getTime();
+      const maxDate = new Date("2023-12-31").getTime();
+
+      // check if within the specified range
+      if (startDate < minDate || endDate > maxDate) {
+        alert('Selected date is out of range (2022-01-01 to 2023-12-31).');
+        return;
+      }
+
+      // filter 
+      let filteredData = crashes.filter(d => {
+        const crashDate = new Date(d['CRASH DATE']).getTime();
+        return crashDate >= startDate && crashDate <= endDate;
+      });
+
+      // apply weather filter
+      if (weatherFilterActive) {
+                const rainyDays = weather.filter(d => +d['rain (mm)'] > 0.0)
+                                        .map(d => {
+                                          const time = new Date(d['time']);
+                                          return time.toISOString().split('T')[0]; 
+                                        });
+                filteredData = filteredData.filter(d => rainyDays.includes(d['CRASH DATE']));
+                console.log('rainy:', rainyDays, 'filtered:', filteredData);
+            }
+
+      // remove existing 
+      svgMap.selectAll('.dot').remove();
+
+      const projection = d3.geoMercator()
+        .fitExtent([[0, 0], [500, 500]], boroughsData);
+      
+      const pathGenerator = d3.geoPath()
+        .projection(projection);
+
+      const accidentMarkers = svgMap.selectAll('.dot')
+        .data(filteredData)
+        .enter()
+        .append('circle')
+        .attr('class', 'dot')
+        .attr('cx', d => projection([+d.LONGITUDE, +d.LATITUDE])[0])
+        .attr('cy', d => projection([+d.LONGITUDE, +d.LATITUDE])[1])
+        .attr('r', 1)
+        .attr('fill', 'red');
+    }
+
+    function resetMap() {
+      const svgMap = d3.select('#map');
+      svgMap.selectAll('.dot').remove();
+
+      const projection = d3.geoMercator()
+        .fitExtent([[0, 0], [500, 500]], initialData.boroughsData);
+
+      const pathGenerator = d3.geoPath()
+        .projection(projection);
+
+      svgMap.selectAll('path')
+        .data(initialData.boroughsData.features)
+        .enter()
+        .append('path')
+        .attr('d', feature => pathGenerator(feature))
+        .attr('fill', 'steelblue')
+        .attr('stroke', 'white')
+        .attr('stroke-width', 1);
+
+    
+    }
+
+    function toggleWeatherFilter() {
+            weatherFilterActive = !weatherFilterActive;
+            updateVisualization();
+        }
+
+    (async () => {
+        
+
+        const width = 500, height = 500;
+
+
+
+
+
+        // GeoJSON Map
+        const svgMap = d3.select('#map')
+            .attr('viewBox', `0 0 ${width} ${height}`);
+
+        const boroughsData = await d3.json('new-york-city-boroughs-ny_.geojson');
+        console.log(boroughsData);
+        const crashes = await d3.csv('processed_nyc_crashes.csv');
+
+        initialData = {
+            boroughsData: boroughsData,
+            crashes: crashes,
+        };
+
+        const projection = d3.geoMercator()
+            .fitExtent([[0, 0], [500, 500]], boroughsData);
+
+        const pathGenerator = d3.geoPath()
+            .projection(projection);
+
+        svgMap.selectAll('path')
+            .data(boroughsData.features)
+            .enter()
+            .append('path')
+            .attr('d', feature => pathGenerator(feature))
+            .attr('fill', 'steelblue')
+            .attr('stroke', 'white')
+            .attr('stroke-width', 1)
+            .on('mouseover', handleMouseOver)
+            .on('mouseout', handleMouseOut);
+
+        function handleMouseOver(event, d) {
+            d3.select(this).style('fill', 'yellow');
+
+            // Show tooltip
+            d3.select("#tooltip")
+                .style("opacity", 1)
+                .html(d.properties.name) // Assuming 'boro_name' is the property for the borough name
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        }
+
+        function handleMouseOut(event, d) {
+            d3.select(this).style('fill', 'steelblue');
+
+            // Hide tooltip
+            d3.select("#tooltip").style("opacity", 0);
+        }
+        
+        resetMap();
+
+
+            })();
+
+            // Bar Chart Code from Second File
+        (async () => {
+        const svgBar = d3.select('#barchart');
+        
+        // Load the detailed crash data
+        const rawData = await d3.csv('processed_nyc_crashes.csv'); // Adjust the file name if necessary
+
+        // Aggregate data by contributing factor
+        const aggregatedData = {};
+        rawData.forEach(d => {
+            const factor = d['CONTRIBUTING FACTOR VEHICLE 1'];
+            if (factor) {
+            if (!aggregatedData[factor]) {
+                aggregatedData[factor] = 0;
+            }
+            aggregatedData[factor] += 1;
+            }
+        });
+
+        // Convert the aggregated data into an array suitable for D3
+        const data = Object.keys(aggregatedData).map(key => ({
+            'Contributing Factor': key,
+            'Number of Crashes': aggregatedData[key]
+        }));
+
+        // Sort and take the top 20
+        data.sort((a, b) => b['Number of Crashes'] - a['Number of Crashes']);
+        const topData = data.slice(0, 20);
+
+            const margin = { top: 20, right: 20, bottom: 150, left: 120 };
+            const width = 960 - margin.left - margin.right;
+            const height = 500 - margin.top - margin.bottom;
+
+            const x = d3.scaleBand()
+                .range([0, width])
+                .padding(0.1)
+                .domain(topData.map(d => d['Contributing Factor'])); // Replace 'Contributing Factor' with the correct column name
+
+            const y = d3.scaleLinear()
+                .range([height, 0])
+                .domain([0, d3.max(topData, d => d['Number of Crashes'])]);
+
+            const svg = svgBar
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+            svg.selectAll('.bar')
+                .data(topData)
+                .enter()
+                .append('rect')
+                .attr('class', 'bar')
+                .attr('x', d => x(d['Contributing Factor'])) // Replace 'Contributing Factor' with the correct column name
+                .attr('width', x.bandwidth())
+                .attr('y', d => y(d['Number of Crashes']))
+                .attr('height', d => height - y(d['Number of Crashes']))
+                .on('click', (event, d) => {filterMapData(d['Contributing Factor']);
+            });;
+
+            svg.append('g')
+                .attr('transform', `translate(0, ${height})`)
+                .call(d3.axisBottom(x))
+                .selectAll('text')
+                .attr('class', 'axis-label')
+                .style('text-anchor', 'end')
+                .attr('dx', '-.8em')
+                .attr('dy', '.15em')
+                .attr('transform', 'rotate(-35)');
+
+            svg.append('g')
+                .call(d3.axisLeft(y));
+            })();
+            function filterMapData(selectedFactor) {
+                const svgMap = d3.select('#map');
+                svgMap.selectAll('.dot').remove(); // Remove existing dots
+
+                const filteredData = initialData.crashes.filter(d => d['CONTRIBUTING FACTOR VEHICLE 1'] === selectedFactor);
+
+                const projection = d3.geoMercator()
+                    .fitExtent([[0, 0], [500, 500]], initialData.boroughsData);
+
+                svgMap.selectAll('.dot')
+                    .data(filteredData)
+                    .enter()
+                    .append('circle')
+                    .attr('class', 'dot')
+                    .attr('cx', d => projection([+d.LONGITUDE, +d.LATITUDE])[0])
+                    .attr('cy', d => projection([+d.LONGITUDE, +d.LATITUDE])[1])
+                    .attr('r', 0.5)
+                    .attr('fill', 'red');
+        }
+  </script>
+</body>
+</html>
