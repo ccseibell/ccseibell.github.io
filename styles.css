@@ -231,6 +231,28 @@
     width: 50%; /* Adjusted size - can change as needed */
     height: 90%; /* Height maintaining 16:9 aspect ratio */
   }
+  .websites {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center align items horizontally */
+    align-items: flex-start; /* Align items to the top of the container */
+}
+
+.website-item {
+    flex: 1; /* Allow items to grow equally */
+    text-align: center; /* Center align content */
+    padding: 0; /* Remove padding */
+}
+
+.website-item img {
+    max-width: 100%; /* Thumbnails will scale within their containers */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Add media query for responsiveness if needed */
+
+
+
   
   
   
