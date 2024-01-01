@@ -1,35 +1,25 @@
 #canvas-image-blending {
     position: absolute;
     width: 100%;
-    height: 750px;
+    height: 650px;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
   }
-
- h1 {
-    font-size: 96px; /* Adjust as needed */
-    color: white;
-  }
   
-  p {
-    font-size: 36px; /* Adjust as needed */
-    color: white;
-  }
-
-html {
-  overflow-y: scroll;
-  scrollbar-width: none; /* For Firefox */
-}
-
-html::-webkit-scrollbar {
-  display: none; /* For Chrome, Safari, and Opera */
-}
   
   
   .main-content {
     padding: 5% 5%;
+  }
+  html {
+    overflow-y: scroll;
+    scrollbar-width: none; /* For Firefox */
+  }
+  
+  html::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
   }
   
   .header {
@@ -61,7 +51,7 @@ html::-webkit-scrollbar {
   
   h1 {
     font-family: 'Rubik', sans-serif;
-    font-size: 3.0rem;
+    font-size: 4.0rem;
     font-weight: 700;
     color: black;
   }
@@ -201,7 +191,7 @@ html::-webkit-scrollbar {
   
   
   
-  @media only screen and (max-width: 550px){
+  @media only screen and (max-width: 550px) and (min-width: 200px){
     .container-fluid {
       align-content: center;
     }
@@ -231,10 +221,6 @@ html::-webkit-scrollbar {
       flex: 100%;
     }
   
-    .small-container-left {
-      text-align: center;
-    }
-
     
     
   }
