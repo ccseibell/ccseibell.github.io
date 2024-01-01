@@ -186,7 +186,8 @@
     padding: 10px;
     text-align: left;
   }
-.carousel-control-prev-icon,
+  
+  .carousel-control-prev-icon,
 .carousel-control-next-icon {
     background-color: #000; /* Dark background for visibility */
     border-radius: 50%;
@@ -230,6 +231,12 @@
     width: 50%; /* Adjusted size - can change as needed */
     height: 90%; /* Height maintaining 16:9 aspect ratio */
   }
+  
+  
+  
+
+
+
   
   
   
