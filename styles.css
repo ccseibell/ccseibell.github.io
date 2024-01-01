@@ -186,6 +186,50 @@
     padding: 10px;
     text-align: left;
   }
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #000; /* Dark background for visibility */
+    border-radius: 50%;
+    width: 5vw; /* Responsive width */
+    height: 5vw; /* Responsive height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: none; /* Remove default icons */
+}
+
+.carousel-control-prev-icon::before,
+.carousel-control-next-icon::before {
+    content: '';
+    display: inline-block;
+    border: solid white;
+    border-width: 0 0.4vw 0.4vw 0; /* Responsive border width */
+    padding: 1vw; /* Responsive padding */
+    transform: translate(-50%, -50%);
+}
+
+.carousel-control-prev-icon::before {
+    transform: rotate(135deg);
+}
+
+.carousel-control-next-icon::before {
+    transform: rotate(-45deg);
+}
+.carousel-inner .carousel-item {
+    position: relative;
+    width: 100%; /* Full width of the container */
+    padding-top: 31.25%; /* Adjusted for 16:9 aspect ratio */
+    overflow: hidden;
+  }
+  
+  .carousel-inner .carousel-item iframe {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for center alignment */
+    width: 50%; /* Adjusted size - can change as needed */
+    height: 90%; /* Height maintaining 16:9 aspect ratio */
+  }
   
   
   
