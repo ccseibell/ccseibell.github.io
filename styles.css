@@ -1,4 +1,4 @@
-
+@ -1,305 +1,305 @@
 #canvas-image-blending {
     position: absolute;
     width: 100%;
@@ -232,7 +232,8 @@
     width: 50%; /* Adjusted size - can change as needed */
     height: 90%; /* Height maintaining 16:9 aspect ratio */
   }
-  .websites {
+
+.websites {
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* Center align items horizontally */
@@ -240,9 +241,11 @@
 }
 
 .website-item {
-    flex: 1; /* Allow items to grow equally */
+    
+    flex: 0 0 calc(33.33% - 20px); /* Allow items to take up 33.33% of the width with spacing */
     text-align: center; /* Center align content */
-    padding: 0; /* Remove padding */
+    
+    margin: 10px; /* Add margin between items */
 }
 
 .website-item img {
