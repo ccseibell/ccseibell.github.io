@@ -1,0 +1,305 @@
+@ -1,283 +1,305 @@
+#canvas-image-blending {
+    position: absolute;
+    width: 100%;
+    height: 650px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  
+  
+  
+  .main-content {
+    padding: 5% 5%;
+  }
+  html {
+    overflow-y: scroll;
+    scrollbar-width: none; /* For Firefox */
+  }
+  
+  html::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+  
+  .header {
+    display: flex;
+  }
+  .resume-button {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.5rem; /* Increased font size */
+    font-weight: 500;
+    color: white;
+    background-color: #3D348B; /* Dark blue background */
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px; /* Increased padding for a larger button */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block; /* Allows width to be set */
+    width: auto; /* Adjust width as needed */
+  }
+  
+  .resume-button:hover {
+    background-color: #7678ED; /* Lighter blue on hover */
+  }
+  
+  
+  .work-header {
+    display: flex;
+  }
+  
+  h1 {
+    font-family: 'Rubik', sans-serif;
+    font-size: 4.0rem;
+    font-weight: 700;
+    color: black;
+  }
+  
+  h2 {
+    font-family: 'Rubik', sans-serif;
+    font-size: 2.0rem;
+    font-weight: 500;
+    color: black;
+  }
+  
+  h3 {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: black;
+    padding-bottom: 10px;
+  }
+  
+  p {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: black;
+  }
+  
+  .time-text {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 200;
+    color: black;
+  }
+  
+  .header-text {
+    width: 80%
+  }
+  
+  .header-image {
+    width: 65%;
+    height: 65%;
+  }
+  
+  .col {
+    padding-bottom: 30px;
+  }
+  
+  .rounded-corners {
+    border-radius: 20px;
+    height: 300px;
+  }
+  
+  .title-image {
+    border-radius: 20px;
+    width: 80%;
+  }
+  
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 3%;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  ul {
+    list-style-position: inside;
+    list-style-type: square;
+  }
+  
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 30px;
+    text-align: center;
+  }
+  
+  .flex-container-reverse {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 30px;
+    text-align: center;
+  }
+  
+  .big-container-left {
+    flex: 70%;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .small-container-right {
+    flex: 30%;
+    padding: 10px;
+    text-align: right;
+  }
+  
+  .big-container-right {
+    flex: 70%;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .small-container-left {
+    flex: 30%;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #000; /* Dark background for visibility */
+    border-radius: 50%;
+    width: 5vw; /* Responsive width */
+    height: 5vw; /* Responsive height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: none; /* Remove default icons */
+}
+
+.carousel-control-prev-icon::before,
+.carousel-control-next-icon::before {
+    content: '';
+    display: inline-block;
+    border: solid white;
+    border-width: 0 0.4vw 0.4vw 0; /* Responsive border width */
+    padding: 1vw; /* Responsive padding */
+    transform: translate(-50%, -50%);
+}
+
+.carousel-control-prev-icon::before {
+    transform: rotate(135deg);
+}
+
+.carousel-control-next-icon::before {
+    transform: rotate(-45deg);
+}
+.carousel-inner .carousel-item {
+    position: relative;
+    width: 100%; /* Full width of the container */
+    padding-top: 31.25%; /* Adjusted for 16:9 aspect ratio */
+    overflow: hidden;
+  }
+  
+  .carousel-inner .carousel-item iframe {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for center alignment */
+    width: 50%; /* Adjusted size - can change as needed */
+    height: 90%; /* Height maintaining 16:9 aspect ratio */
+  }
+  .websites {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center align items horizontally */
+    align-items: flex-start; /* Align items to the top of the container */
+}
+
+.website-item {
+    flex: 1; /* Allow items to grow equally */
+    text-align: center; /* Center align content */
+    padding: 0; /* Remove padding */
+}
+
+.website-item img {
+    max-width: 100%; /* Thumbnails will scale within their containers */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Add media query for responsiveness if needed */
+
+
+
+  
+  
+  
+
+
+
+  
+  
+  
+  
+  
+  @media only screen and (max-width: 550px) and (min-width: 200px){
+    .container-fluid {
+      align-content: center;
+    }
+  
+    .header {
+      display: inline;
+      align-items: center;
+    }
+  
+    .progressbar {
+      width: 60%;
+    }
+  
+    .flex-container-reverse {
+      flex-direction: column-reverse;
+    }
+    
+    .big-container-left, .small-container-right {
+      flex: 100%;
+    }
+  
+    .small-container-right {
+      text-align: center;
+    }
+  
+    .big-container-right, .small-container-left {
+      flex: 100%;
+    }
+  
+    
+    
+  }
+   #app {
+    min-height: 18vh; /* Adjust this percentage based on typical text length */
+}
+  
+  
